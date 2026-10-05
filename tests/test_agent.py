@@ -98,7 +98,7 @@ def test_run_eval_cli_points_at_any_endpoint(tmp_path, monkeypatch):
     monkeypatch.setattr(run_eval, "make_client", fake_client)
     out = tmp_path / "out.json"
     monkeypatch.setattr("sys.argv", ["run_eval.py", "--model", "m", "--base-url", "http://host/v1", "--api-key-env", "MY_KEY",
-                                     "--questions", str(run_eval.HERE / "eval.jsonl"), "--limit", "3", "--workers", "1",
+                                     "--questions", str(run_eval.HERE / "datasets" / "eval.jsonl"), "--limit", "3", "--workers", "1",
                                      "--out", str(out)])
     run_eval.main()
     assert seen == {"base_url": "http://host/v1", "api_key_env": "MY_KEY"}

@@ -1,6 +1,6 @@
 """Run the agent over a question file, grade it, save the results and print a report.
 
-    python run_eval.py --model <model> [--questions eval.jsonl] [--limit N] [--out baseline_eval.json]
+    python run_eval.py --model <model> [--questions eval.jsonl] [--limit N] [--out results/baseline_eval.json]
 
 Any OpenAI-compatible endpoint works: --base-url is the endpoint and --api-key-env names the
 environment variable that holds its key.
@@ -127,9 +127,9 @@ def main():
     parser.add_argument("--model", default=None)
     parser.add_argument("--base-url", default=None, help="OpenAI-compatible endpoint, e.g. https://<host>/v1")
     parser.add_argument("--api-key-env", default="OPENAI_API_KEY", help="environment variable holding the API key")
-    parser.add_argument("--questions", default=str(HERE / "eval.jsonl"))
+    parser.add_argument("--questions", default=str(HERE / "datasets" / "eval.jsonl"))
     parser.add_argument("--limit", type=int, default=None, help="only run the first N questions")
-    parser.add_argument("--out", default=str(HERE / "baseline_eval.json"))
+    parser.add_argument("--out", default=str(HERE / "results" / "baseline_eval.json"))
     parser.add_argument("--workers", type=int, default=4)
     args = parser.parse_args()
 

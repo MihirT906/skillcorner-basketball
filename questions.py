@@ -1,6 +1,6 @@
 """Generate questions with ground-truth answers computed from the game data (data.py), never from an LLM.
 
-Run `python questions.py` to write train.jsonl and eval.jsonl next to this file.
+Run `python questions.py` to write train.jsonl and eval.jsonl to datasets/.
 """
 
 import itertools
@@ -18,7 +18,7 @@ TRAIN_PER_GAME = 30
 EVAL_PER_GAME = 20
 # eval.jsonl is frozen: it was generated before these templates existed, so they are left out of it.
 EVAL_EXCLUDED_TEMPLATES = frozenset({"score_after"})
-OUT_DIR = Path(__file__).resolve().parent
+OUT_DIR = Path(__file__).resolve().parent / "datasets"
 
 # Target share of each question type per game.
 MIX = {

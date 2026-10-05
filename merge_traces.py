@@ -5,7 +5,7 @@ One trace per question: a real trace replaces the synthetic trace for the same q
 the current one, stop the merge.
 
     python merge_traces.py [--synthetic traces_synthetic.jsonl] [--real traces_real.jsonl]
-        ->  traces_merged.jsonl
+        ->  traces/traces_merged.jsonl
 """
 
 import argparse
@@ -35,9 +35,9 @@ def merge(synthetic: list[dict], real: list[dict], keep_both: bool = False) -> l
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--synthetic", default=str(HERE / "traces_synthetic.jsonl"))
-    parser.add_argument("--real", default=str(HERE / "traces_real.jsonl"))
-    parser.add_argument("--out", default=str(HERE / "traces_merged.jsonl"))
+    parser.add_argument("--synthetic", default=str(HERE / "traces" / "synthetic" / "traces_synthetic.jsonl"))
+    parser.add_argument("--real", default=str(HERE / "traces" / "frontier" / "traces_real.jsonl"))
+    parser.add_argument("--out", default=str(HERE / "traces" / "traces_merged.jsonl"))
     parser.add_argument("--keep-both", action="store_true", help="keep the synthetic trace even when a real one exists")
     args = parser.parse_args()
 

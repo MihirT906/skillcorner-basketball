@@ -10,7 +10,7 @@ from grade import parse_score
 from questions import (EVAL_GAMES, EVAL_PER_GAME, MIX, TEMPLATES, TRAIN_GAMES, TRAIN_PER_GAME, contested_fg_line,
                        generate_eval, generate_train, pct, team_stats)
 
-HERE = Path(__file__).resolve().parent
+HERE = Path(__file__).resolve().parent.parent / "datasets"
 
 FIELDS = ["id", "game_id", "question", "answer", "answer_type", "question_type"]
 

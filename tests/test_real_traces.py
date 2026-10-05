@@ -9,7 +9,7 @@ from gen_real_traces import HERE, real_trace
 from merge_traces import merge
 from test_agent import FakeClient, reply, tool_call
 
-ROW = json.loads((HERE / "train.jsonl").read_text().splitlines()[0])
+ROW = json.loads((HERE / "datasets" / "train.jsonl").read_text().splitlines()[0])
 
 
 def run(final, calls=True):
@@ -28,7 +28,7 @@ def test_real_trace_kept_only_when_correct_and_tool_backed():
 
 
 def test_merge_prefers_real_and_refuses_eval_games():
-    synthetic = [json.loads(line) for line in (HERE / "traces_synthetic.jsonl").read_text().splitlines()[:3]]
+    synthetic = [json.loads(line) for line in (HERE / "traces" / "synthetic" / "traces_synthetic.jsonl").read_text().splitlines()[:3]]
     real = [{**synthetic[0], "model": "m"}]
     assert merge(synthetic, real) == synthetic[1:] + real
     assert len(merge(synthetic, real, keep_both=True)) == 4

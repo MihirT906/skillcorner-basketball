@@ -27,8 +27,8 @@ def test_traces():
 
 def test_trace_files_on_disk_are_current():
     traces, _ = generate_traces()
-    full = [json.loads(line) for line in open("traces_synthetic.jsonl")]
-    clean = [json.loads(line) for line in open("traces_clean.jsonl")]
+    full = [json.loads(line) for line in open("traces/synthetic/traces_synthetic.jsonl")]
+    clean = [json.loads(line) for line in open("traces/synthetic/traces_clean.jsonl")]
     assert full == traces
     assert clean == [{"messages": t["messages"], "tools": t["tools"]} for t in traces]
     assert all(list(line) == ["messages", "tools"] for line in clean)
@@ -53,7 +53,7 @@ def test_period_and_score_traces():
 
 def test_validate_catches_bad_traces():
     traces, _ = generate_traces()
-    rows = {q["id"]: q for q in map(json.loads, open("train.jsonl"))}
+    rows = {q["id"]: q for q in map(json.loads, open("datasets/train.jsonl"))}
     trace = json.loads(json.dumps(traces[0]))
     row = rows[trace["id"]]
     assert validate(trace, row) is None

@@ -4,7 +4,7 @@ Each trace is the conversation a perfect agent would have: system prompt, questi
 call with the right arguments, the real tool output, and a short answer ending in FINAL ANSWER.
 Every trace is validated (tool calls replayed, answer graded) before it is written.
 
-    python synthetic_traces.py   ->  traces_synthetic.jsonl
+    python synthetic_traces.py   ->  traces/synthetic/traces_synthetic.jsonl
 """
 
 import json
@@ -315,7 +315,7 @@ def validate(trace: dict, row: dict) -> str | None:
 
 def generate_traces() -> tuple[list[dict], list[tuple[dict, str]]]:
     """(valid traces, [(question row, reason dropped)]) for every question in train.jsonl."""
-    on_disk = {q["id"]: q for q in map(json.loads, (HERE / "train.jsonl").read_text().splitlines())}
+    on_disk = {q["id"]: q for q in map(json.loads, (HERE / "datasets" / "train.jsonl").read_text().splitlines())}
     rows = generate_train(with_meta=True)
     traces, dropped = [], []
     for row in rows:
@@ -342,8 +342,8 @@ if __name__ == "__main__":
         # Just the two keys a fine-tuning upload expects.
         ("traces_clean.jsonl", [{"messages": t["messages"], "tools": t["tools"]} for t in traces]),
     ):
-        (HERE / name).write_text("".join(json.dumps(line, ensure_ascii=False) + "\n" for line in lines))
-    print(f"Wrote {len(traces)} traces to traces_synthetic.jsonl and traces_clean.jsonl; dropped {len(dropped)}")
+        (HERE / "traces" / "synthetic" / name).write_text("".join(json.dumps(line, ensure_ascii=False) + "\n" for line in lines))
+    print(f"Wrote {len(traces)} traces to traces/synthetic/; dropped {len(dropped)}")
     print("Traces per question_type:", dict(Counter(t["question_type"] for t in traces)))
     for row, reason in dropped:
         print(f"  dropped {row['id']}: {reason}")

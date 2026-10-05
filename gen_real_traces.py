@@ -5,7 +5,7 @@ is kept only if its final answer grades correct against the ground truth, it mad
 tool call, and no tool call returned an error. Eval games are refused outright.
 
     python gen_real_traces.py --model <model> [--base-url URL] [--api-key-env VAR] [--limit N]
-        ->  traces_real.jsonl
+        ->  traces/frontier/traces_real.jsonl
 """
 
 import argparse
@@ -44,9 +44,9 @@ def main():
     parser.add_argument("--model", default=None)
     parser.add_argument("--base-url", default=None, help="OpenAI-compatible endpoint, e.g. https://<host>/v1")
     parser.add_argument("--api-key-env", default="OPENAI_API_KEY", help="environment variable holding the API key")
-    parser.add_argument("--questions", default=str(HERE / "train.jsonl"))
+    parser.add_argument("--questions", default=str(HERE / "datasets" / "train.jsonl"))
     parser.add_argument("--limit", type=int, default=None, help="only run the first N questions")
-    parser.add_argument("--out", default=str(HERE / "traces_real.jsonl"))
+    parser.add_argument("--out", default=str(HERE / "traces" / "frontier" / "traces_real.jsonl"))
     parser.add_argument("--workers", type=int, default=4)
     args = parser.parse_args()
 

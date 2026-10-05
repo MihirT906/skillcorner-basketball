@@ -21,15 +21,15 @@ pytest -q
 
 | Command | What it does |
 | --- | --- |
-| `python questions.py` | Writes `train.jsonl` and `eval.jsonl`, with answers computed from the data |
-| `python synthetic_traces.py` | Writes `traces_synthetic.jsonl` and `traces_clean.jsonl` (ideal-agent traces, each one replayed and graded) |
+| `python questions.py` | Writes `datasets/train.jsonl` and `datasets/eval.jsonl`, with answers computed from the data |
+| `python synthetic_traces.py` | Writes `traces/synthetic/traces_synthetic.jsonl` and `traces/synthetic/traces_clean.jsonl` (ideal-agent traces, each one replayed and graded) |
 | `python run_eval.py --model M [--base-url URL --api-key-env VAR] [--questions F] [--limit N]` | Runs the agent on the eval questions; reports accuracy per question type, latency and cost |
-| `python gen_real_traces.py --model M [--base-url URL --api-key-env VAR]` | Writes `traces_real.jsonl` from a real model's correct runs on the training questions |
-| `python merge_traces.py` | Merges synthetic and real traces into `traces_merged.jsonl` |
+| `python gen_real_traces.py --model M [--base-url URL --api-key-env VAR]` | Writes `traces/frontier/traces_real.jsonl` from a real model's correct runs on the training questions |
+| `python merge_traces.py` | Merges synthetic and real traces into `traces/traces_merged.jsonl` |
 | `python agent.py "<question>"` | Asks one question (uses `OPENAI_MODEL`, `OPENAI_API_KEY`, `OPENAI_BASE_URL`) |
 
 `run_eval.py` and `gen_real_traces.py` work with any OpenAI-compatible endpoint. The steps for the
-event are in [EVENT_RUNBOOK.md](EVENT_RUNBOOK.md); data quirks are in [SCHEMA_NOTES.md](SCHEMA_NOTES.md).
+event are in [EVENT_RUNBOOK.md](docs/EVENT_RUNBOOK.md); data quirks are in [SCHEMA_NOTES.md](docs/SCHEMA_NOTES.md).
 
 ## Game split
 
@@ -38,8 +38,8 @@ than memorized a game.
 
 | Split | Games | Questions |
 | --- | --- | --- |
-| Training | 114243, 114234, 114169, 114099, 114086, 179612, 184439, 188630 | 238 (`train.jsonl`), one validated trace each |
-| Eval (never trained on) | 191313 Breogan 94-95 Zaragoza, 178442 Andorra 98-102 Bilbao (OT) | 40 (`eval.jsonl`) |
+| Training | 114243, 114234, 114169, 114099, 114086, 179612, 184439, 188630 | 238 (`datasets/train.jsonl`), one validated trace each |
+| Eval (never trained on) | 191313 Breogan 94-95 Zaragoza, 178442 Andorra 98-102 Bilbao (OT) | 40 (`datasets/eval.jsonl`) |
 
 Ground truth always comes from code (`data.py`), never from an LLM. Scores are computed from shots
 and free throws only.
