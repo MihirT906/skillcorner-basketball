@@ -1,0 +1,181 @@
+{
+  "summary": {
+    "model": "gpt-5.5",
+    "n": 3,
+    "correct": 3,
+    "accuracy": 1.0,
+    "by_question_type": {
+      "player_stat": {
+        "n": 3,
+        "correct": 3,
+        "accuracy": 1.0
+      }
+    },
+    "avg_tool_calls": 1.0,
+    "avg_latency_s": 5.48,
+    "usage": {
+      "input_tokens": 9639,
+      "cached_input_tokens": 0,
+      "output_tokens": 146
+    },
+    "total_cost_usd": null
+  },
+  "results": [
+    {
+      "id": "191313-player_stat-01",
+      "game_id": 191313,
+      "question": "Game 191313: Leche Rio Breogan vs Casademont Zaragoza (2026-05-29). How many made threes did Ivan Cruz Uceda have?",
+      "answer": 0,
+      "answer_type": "integer",
+      "question_type": "player_stat",
+      "correct": true,
+      "model_answer": "0",
+      "response": "0\n\nFINAL ANSWER: 0",
+      "tool_calls": [
+        {
+          "name": "get_box_score",
+          "arguments": "{\"game_id\":\"191313\",\"player\":\"Ivan Cruz Uceda\"}",
+          "result": {
+            "game_id": 191313,
+            "period": "full game",
+            "teams": [
+              {
+                "team": "Leche Rio Breogan",
+                "players": [
+                  {
+                    "player": "Ivan Cruz Uceda",
+                    "number": "33",
+                    "PTS": 0,
+                    "FGM": 0,
+                    "FGA": 0,
+                    "3PM": 0,
+                    "3PA": 0,
+                    "FTM": 0,
+                    "FTA": 0,
+                    "OREB": 0,
+                    "DREB": 0,
+                    "REB": 0,
+                    "TOV": 0,
+                    "PF": 0
+                  }
+                ]
+              }
+            ],
+            "note": "Only players who appeared (in that period, if one is given). FGA and 3PA exclude fouled misses. Team rebounds and team turnovers are not credited to any player; use get_team_stats for team totals."
+          }
+        }
+      ],
+      "n_tool_calls": 1,
+      "latency_s": 5.35,
+      "usage": {
+        "input_tokens": 3219,
+        "cached_input_tokens": 0,
+        "output_tokens": 56
+      }
+    },
+    {
+      "id": "191313-player_stat-02",
+      "game_id": 191313,
+      "question": "Game 191313: Leche Rio Breogan vs Casademont Zaragoza (2026-05-29). What was Mihajlo Andric's turnover count?",
+      "answer": 1,
+      "answer_type": "integer",
+      "question_type": "player_stat",
+      "correct": true,
+      "model_answer": "1",
+      "response": "FINAL ANSWER: 1",
+      "tool_calls": [
+        {
+          "name": "get_box_score",
+          "arguments": "{\"game_id\":\"191313\",\"player\":\"Mihajlo Andric\"}",
+          "result": {
+            "game_id": 191313,
+            "period": "full game",
+            "teams": [
+              {
+                "team": "Leche Rio Breogan",
+                "players": [
+                  {
+                    "player": "Mihajlo Andric",
+                    "number": "37",
+                    "PTS": 1,
+                    "FGM": 0,
+                    "FGA": 4,
+                    "3PM": 0,
+                    "3PA": 3,
+                    "FTM": 1,
+                    "FTA": 2,
+                    "OREB": 0,
+                    "DREB": 1,
+                    "REB": 1,
+                    "TOV": 1,
+                    "PF": 3
+                  }
+                ]
+              }
+            ],
+            "note": "Only players who appeared (in that period, if one is given). FGA and 3PA exclude fouled misses. Team rebounds and team turnovers are not credited to any player; use get_team_stats for team totals."
+          }
+        }
+      ],
+      "n_tool_calls": 1,
+      "latency_s": 5.0,
+      "usage": {
+        "input_tokens": 3217,
+        "cached_input_tokens": 0,
+        "output_tokens": 38
+      }
+    },
+    {
+      "id": "191313-player_stat-03",
+      "game_id": 191313,
+      "question": "Game 191313: Leche Rio Breogan vs Casademont Zaragoza (2026-05-29). How many rebounds did Jordan Walker grab?",
+      "answer": 1,
+      "answer_type": "integer",
+      "question_type": "player_stat",
+      "correct": true,
+      "model_answer": "1",
+      "response": "FINAL ANSWER: 1",
+      "tool_calls": [
+        {
+          "name": "get_box_score",
+          "arguments": "{\"game_id\":\"191313\",\"player\":\"Jordan Walker\"}",
+          "result": {
+            "game_id": 191313,
+            "period": "full game",
+            "teams": [
+              {
+                "team": "Leche Rio Breogan",
+                "players": [
+                  {
+                    "player": "Jordan Walker",
+                    "number": "2",
+                    "PTS": 0,
+                    "FGM": 0,
+                    "FGA": 2,
+                    "3PM": 0,
+                    "3PA": 2,
+                    "FTM": 0,
+                    "FTA": 0,
+                    "OREB": 1,
+                    "DREB": 0,
+                    "REB": 1,
+                    "TOV": 1,
+                    "PF": 2
+                  }
+                ]
+              }
+            ],
+            "note": "Only players who appeared (in that period, if one is given). FGA and 3PA exclude fouled misses. Team rebounds and team turnovers are not credited to any player; use get_team_stats for team totals."
+          }
+        }
+      ],
+      "n_tool_calls": 1,
+      "latency_s": 6.1,
+      "usage": {
+        "input_tokens": 3203,
+        "cached_input_tokens": 0,
+        "output_tokens": 52
+      }
+    }
+  ]
+}
