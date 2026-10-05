@@ -23,6 +23,8 @@ pytest -q
 | --- | --- |
 | `python questions.py` | Writes `datasets/train.jsonl` and `datasets/eval.jsonl`, with answers computed from the data |
 | `python synthetic_traces.py` | Writes `traces/synthetic/traces_synthetic.jsonl` and `traces/synthetic/traces_clean.jsonl` (ideal-agent traces, each one replayed and graded) |
+| `python questions_hard.py` | Writes `datasets/train_hard.jsonl` and `datasets/eval_hard.jsonl`: harder questions (combined filters, arithmetic across tool calls, leaders within a period) |
+| `python synthetic_traces_hard.py` | Writes `traces/synthetic/traces_hard_synthetic.jsonl` and `traces/synthetic/traces_hard_clean.jsonl` |
 | `python run_eval.py --model M [--base-url URL --api-key-env VAR] [--questions F] [--limit N]` | Runs the agent on the eval questions; reports accuracy per question type, latency and cost |
 | `python gen_real_traces.py --model M [--base-url URL --api-key-env VAR]` | Writes `traces/frontier/traces_real.jsonl` from a real model's correct runs on the training questions |
 | `python merge_traces.py` | Merges synthetic and real traces into `traces/traces_merged.jsonl` |
@@ -38,8 +40,8 @@ than memorized a game.
 
 | Split | Games | Questions |
 | --- | --- | --- |
-| Training | 114243, 114234, 114169, 114099, 114086, 179612, 184439, 188630 | 238 (`datasets/train.jsonl`), one validated trace each |
-| Eval (never trained on) | 191313 Breogan 94-95 Zaragoza, 178442 Andorra 98-102 Bilbao (OT) | 40 (`datasets/eval.jsonl`) |
+| Training | 114243, 114234, 114169, 114099, 114086, 179612, 184439, 188630 | 238 (`datasets/train.jsonl`) + 240 hard (`datasets/train_hard.jsonl`), one validated trace each |
+| Eval (never trained on) | 191313 Breogan 94-95 Zaragoza, 178442 Andorra 98-102 Bilbao (OT) | 40 (`datasets/eval.jsonl`) + 40 hard (`datasets/eval_hard.jsonl`) |
 
 Ground truth always comes from code (`data.py`), never from an LLM. Scores are computed from shots
 and free throws only.

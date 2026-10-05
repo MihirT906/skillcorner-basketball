@@ -252,9 +252,9 @@ def format_answer(answer, answer_type: str) -> str:
     return f"{answer}%" if answer_type == "percentage" else str(answer)
 
 
-def build_trace(row: dict, rng: random.Random) -> dict:
+def build_trace(row: dict, rng: random.Random, plans=None) -> dict:
     meta, game_id = row["meta"], row["game_id"]
-    plan = PLAN[meta["subtype"]]
+    plan = (plans or PLAN)[meta["subtype"]]
 
     calls = []
     for name, args in plan["calls"](meta):
@@ -313,18 +313,18 @@ def validate(trace: dict, row: dict) -> str | None:
     return None
 
 
-def generate_traces() -> tuple[list[dict], list[tuple[dict, str]]]:
-    """(valid traces, [(question row, reason dropped)]) for every question in train.jsonl."""
-    on_disk = {q["id"]: q for q in map(json.loads, (HERE / "datasets" / "train.jsonl").read_text().splitlines())}
-    rows = generate_train(with_meta=True)
+def generate_traces(rows=None, questions_file="train.jsonl", plans=None) -> tuple[list[dict], list[tuple[dict, str]]]:
+    """(valid traces, [(question row, reason dropped)]) for every question in train.jsonl (or another question set)."""
+    on_disk = {q["id"]: q for q in map(json.loads, (HERE / "datasets" / questions_file).read_text().splitlines())}
+    rows = generate_train(with_meta=True) if rows is None else rows
     traces, dropped = [], []
     for row in rows:
         public = {k: v for k, v in row.items() if k != "meta"}
         if on_disk.get(row["id"]) != public:
-            dropped.append((row, "question does not match train.jsonl (regenerate it with questions.py)"))
+            dropped.append((row, f"question does not match {questions_file} (regenerate it)"))
             continue
         try:
-            trace = build_trace(row, random.Random(f"{SEED}-trace-{row['id']}"))
+            trace = build_trace(row, random.Random(f"{SEED}-trace-{row['id']}"), plans)
             reason = validate(trace, row)
         except Exception as e:  # a trace that cannot be built is dropped, not fatal
             trace, reason = None, f"{type(e).__name__}: {e}"

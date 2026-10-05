@@ -323,18 +323,20 @@ def type_counts(n: int, tie_break: int) -> dict[str, int]:
     return counts
 
 
-def generate_game(game_id: int, n: int, tie_break: int = 0, with_meta: bool = False, exclude=frozenset()) -> list[dict]:
+def generate_game(game_id: int, n: int, tie_break: int = 0, with_meta: bool = False, exclude=frozenset(), tier=None) -> list[dict]:
     """Questions for one game. with_meta adds a `meta` dict (template key + the entities asked about);
-    exclude lists templates to leave out."""
+    exclude lists templates to leave out. tier is (id tag, templates, subtypes, candidates function) for a
+    question set other than the basic one."""
+    tag, templates, subtypes, make_candidates = tier or ("", TEMPLATES, SUBTYPES, candidates)
     game = load_game(game_id)
     rng = random.Random(f"{SEED}-{game_id}")
     home, away = game.teams.values()
     context = f"Game {game.game_id}: {home} vs {away} ({game.meta['date'][:10]}). "
-    cands = candidates(game)
+    cands = make_candidates(game)
 
     questions = []
     for qtype, count in type_counts(n, tie_break).items():
-        pools = {key: rng.sample(cands[key], len(cands[key])) for key in SUBTYPES[qtype] if cands[key] and key not in exclude}
+        pools = {key: rng.sample(cands[key], len(cands[key])) for key in subtypes[qtype] if cands[key] and key not in exclude}
         order = rng.sample(list(pools), len(pools))
         picked, seen, repeats = [], set(), []
         # Round-robin over the subtypes so one game does not ask the same kind of thing repeatedly.
@@ -344,7 +346,7 @@ def generate_game(game_id: int, n: int, tie_break: int = 0, with_meta: bool = Fa
             if not pools[key]:
                 continue
             kwargs, answer, answer_type = pools[key].pop()
-            text = rng.choice(TEMPLATES[key]).format(**kwargs)
+            text = rng.choice(templates[key]).format(**kwargs)
             if qtype == "leader":
                 # A team's leader who also leads the game is asked about only once per stat.
                 fingerprint = (key.rsplit("_", 1)[0], answer)
@@ -363,7 +365,7 @@ def generate_game(game_id: int, n: int, tie_break: int = 0, with_meta: bool = Fa
         for i, (text, answer, answer_type, meta) in enumerate(picked, 1):
             questions.append(
                 {
-                    "id": f"{game.game_id}-{qtype}-{i:02d}",
+                    "id": f"{game.game_id}-{tag}{qtype}-{i:02d}",
                     "game_id": game.game_id,
                     "question": context + text,
                     "answer": answer,
@@ -375,11 +377,11 @@ def generate_game(game_id: int, n: int, tie_break: int = 0, with_meta: bool = Fa
     return questions
 
 
-def generate(game_ids: list[int], per_game: int, with_meta: bool = False, exclude=frozenset()) -> list[dict]:
+def generate(game_ids: list[int], per_game: int, with_meta: bool = False, exclude=frozenset(), tier=None) -> list[dict]:
     return [
         q
         for i, gid in enumerate(game_ids)
-        for q in generate_game(gid, per_game, tie_break=i, with_meta=with_meta, exclude=exclude)
+        for q in generate_game(gid, per_game, tie_break=i, with_meta=with_meta, exclude=exclude, tier=tier)
     ]
 
 
